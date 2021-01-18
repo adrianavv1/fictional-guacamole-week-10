@@ -10,6 +10,97 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+//////////////
+
+/* 
+function validateInput (input) {
+    // Declare function as asynchronous, and save the done callback
+    var done = this.async();
+    const isValid = /[a-z]/.test(input.trim())
+  
+    // Do async stuff
+    setTimeout(function() {
+      if (!isValid) {
+        // Pass the return value in the done callback
+        done('No numbers!');
+        return;
+      }
+      // Pass the return value in the done callback
+      done(process.exit(0));
+    }, 1000);
+  } */
+
+  ////////////
+
+  const addManager = () => {
+    inquirer.prompt([
+        {
+          type: 'text',
+          name: 'name',
+          message: "What's the name of the manager?"
+        },
+        {
+          type: 'text',
+          name: 'id',
+          message: "What's the id of the manager?"
+        },
+        {
+          type: 'text',
+          name: 'email',
+          message: "What's the email of the manager?"
+        },
+        {
+          type: 'text',
+          name: 'officeNumber',
+          message: "What's the office number of the manager?"
+        }
+        ])
+        .then((answer) => {
+            const newManager = new Manager(answer.name, answer.id, answer.email, answer.officeNumber);
+
+            console.log('Manager created! ' + newManager);
+
+            start();
+
+         
+        })
+        .catch(err => console.log(err))
+  }
+
+
+  const start = () => {
+      inquirer.prompt([{
+        type: 'list',
+        name: 'employeeType',
+        message: "Which employee type do you want to add?",
+        choices: [
+            'Manager',
+            'Engineer',
+            'Intern',
+            'Exit'
+        ]
+      }]).then(answer => {
+          if(answer.employeeType == 'Manager') {
+            addManager();
+          } else if(answer.employeeType == 'Engineer') {
+             // addEngineer();
+          } else if(answer.employeeType == 'Intern') {
+            // addIntern();
+         } else {
+             console.log('Goodbye!')
+
+             // start writing to file! / or generating the html
+             // user render()
+         }
+      })
+
+
+  }
+
+
+  
+start();
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
