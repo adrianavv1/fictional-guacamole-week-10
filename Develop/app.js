@@ -35,17 +35,17 @@ function validateInput (input) {
   const addManager = () => {
     inquirer.prompt([
         {
-          type: 'text',
+          type: 'input',
           name: 'name',
           message: "What's the name of the manager?"
         },
         {
-          type: 'text',
+          type: 'input',
           name: 'id',
           message: "What's the id of the manager?"
         },
         {
-          type: 'text',
+          type: 'input',
           name: 'email',
           message: "What's the email of the manager?"
         },
@@ -83,9 +83,9 @@ function validateInput (input) {
           if(answer.employeeType == 'Manager') {
             addManager();
           } else if(answer.employeeType == 'Engineer') {
-             // addEngineer();
+            addEngineer();
           } else if(answer.employeeType == 'Intern') {
-            // addIntern();
+            addIntern();
          } else {
              console.log('Goodbye!')
 
@@ -95,6 +95,34 @@ function validateInput (input) {
       })
 
 
+  }
+  const addEngineer() {
+    inquirer.prompt([
+      {
+        type: "input",
+        message: "What is the engineer's name?",
+        name: "name",
+      },
+      {
+        type: "input",
+        message: "Enter employer ID number.",
+        name: "id",
+      },
+      {
+        type: "input",
+        message: "Enter your email.",
+        name: "email",
+      },
+      {
+        type: "input",
+        message: "Enter your Github username.",
+        name: "github",
+      },
+    ])
+    .then((answer)) => {
+      const engineer = new Engineer(answer.name, answer.id, answer.email, answer.github);
+
+    }
   }
 
 
