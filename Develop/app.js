@@ -35,24 +35,48 @@ function validateInput (input) {
   const addManager = () => {
     inquirer.prompt([
         {
-          type: 'input',
-          name: 'name',
-          message: "What's the name of the manager?"
-        },
-        {
-          type: 'input',
-          name: 'id',
-          message: "What's the id of the manager?"
-        },
-        {
-          type: 'input',
-          name: 'email',
-          message: "What's the email of the manager?"
-        },
-        {
-          type: 'text',
-          name: 'officeNumber',
-          message: "What's the office number of the manager?"
+            type: 'input',
+            name: 'name',
+            message: "What's the name of the manager?",
+            validate: async(input) => {
+              if (input == "" ||/\s/.test(input)) {
+                return "Oh no. Please enter a valid name.";
+              }
+              return true;
+            }
+          },
+          {
+            type: 'input',
+            name: 'id',
+            message: "What's the id of the manager?",
+            validate: async(input) => {
+              if(isNaN(input)) {
+                return "Incorrect/missing ID. Please try again.";
+              }
+              return true;
+            }
+          },
+          {
+            type: 'input',
+            name: 'email',
+            message: "What's the email of the manager?",
+            validate: async (input) => {
+              if(input == /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/.test(input)) {
+                  return true;
+              }
+              return "Please enter a valid email.";
+            }
+          },
+          {
+            type: 'input',
+            name: 'officeNumber',
+            message: "What's the office number of the manager?",
+            validate: async(input) => {
+              if(isNaN(input)) {
+                return "Incorrect or non working number.";
+              }
+              return true;
+          }
         }
         ])
         .then((answer) => {
@@ -84,47 +108,118 @@ function validateInput (input) {
             addManager();
           } else if(answer.employeeType == 'Engineer') {
             addEngineer();
-          } else if(answer.employeeType == 'Intern') {
+            inquirer.prompt([
+                {
+                  type: "input",
+                  message: "What is the engineer's name?",
+                  name: "name",
+                  validate: async(input) => {
+                    if (input == "" ||/\s/.test(input)) {
+                      return "Oh no. Please enter a valid name.";
+                    }
+                    return true;
+                  }
+                },
+                {
+                  type: "input",
+                  message: "Enter employer ID number.",
+                  name: "id",
+                  validate: async(input) => {
+                    if(isNaN(input)) {
+                      return "Incorrect/missing ID. Please try again.";
+                    }
+                    return true;
+                  }
+                },
+                {
+                  type: "input",
+                  message: "Enter your email.",
+                  name: "email",
+                  validate: async (input) => {
+                    if (input == /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/.test(input)) {
+                        return  true;
+                    }
+                    return "Please enter a valid email";
+                }
+                },
+                {
+                  type: "input",
+                  message: "Enter your Github username.",
+                  name: "github",
+                  validate: async(input) => {
+                    if(input == "" || /\s/.test(input)) {
+                        return "Github username not found.";
+                    }
+                    return true;
+                }
+                },
+              ])
+              .then((answer) => {
+                const newEngineer = new Engineer(answer.name, answer.id, answer.email, answer.github);
+          
+                console.log('Engineer created! ' + newEngineer);
+          
+            })
+            .catch(err => console.log(err));
+        }
+        const start = () => {
+            inquirer.prompt([{
+              type: 'list',
+              name: 'employeeType',
+              message: "Which employee type do you want to add?",
+              choices: [
+                  'Manager',
+                  'Engineer',
+                  'Intern',
+                  'Exit'
+              ]
+            }
+
+          }else if(answer.employeeType == 'Intern') {
             addIntern();
-         } else {
+            inquirer.prompt([
+                {
+                    type: "input",
+                    message: "What is your intern's name?",
+                    name: "name",
+                    validate: confirmName
+                },
+                {
+                    type: "input",
+                    message: "What is your intern's id?",
+                    name: "id",
+                    validate: confirmNumber
+                },
+                {
+                    type: "input",
+                    message: "What is your intern's email?",
+                    name: "email",
+                    validate: validateEmail 
+                },
+                {
+                    type: "input",
+                    message: "What is your intern's school?",
+                    name: "school",
+                    validate: confirmName
+                }
+            ])
+            .then((answer) => {
+                const newIntern = new Intern(answer.name, answer.id, answer.email, answer.school);
+          
+                console.log('intern created! ' + newIntern);
+          
+            })
+            .catch(err => console.log(err));
              console.log('Goodbye!')
 
              // start writing to file! / or generating the html
              // user render()
          }
       })
+      
 
 
   }
-  const addEngineer() {
-    inquirer.prompt([
-      {
-        type: "input",
-        message: "What is the engineer's name?",
-        name: "name",
-      },
-      {
-        type: "input",
-        message: "Enter employer ID number.",
-        name: "id",
-      },
-      {
-        type: "input",
-        message: "Enter your email.",
-        name: "email",
-      },
-      {
-        type: "input",
-        message: "Enter your Github username.",
-        name: "github",
-      },
-    ])
-    .then((answer)) => {
-      const engineer = new Engineer(answer.name, answer.id, answer.email, answer.github);
-
-    }
-  }
-
 
   
 start();
@@ -152,3 +247,4 @@ start();
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+© 2021 GitHub, Inc.
