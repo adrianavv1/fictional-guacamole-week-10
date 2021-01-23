@@ -2,7 +2,8 @@
 ## Application Description
 This application is a Node command line app that takes in information of employees and generates an HTML webpage and displays information about each team member. This application utilizes jests unit tests to make sure everything is properly working. 
 
-The live webpage can be viewed [here]()
+The live webpage can be viewed [here](http://127.0.0.1:5500/src/output/team.html)
+link to [tutorial](https://youtu.be/QGNbV9NWbaU)
 
 
 ### User Story
@@ -96,7 +97,7 @@ The project must generate a team.html page in the output directory, that display
 
 ## Questions
 
-link to my [Github]()
+link to my [Github](https://github.com/adrianavv1)
 You can always reach me at adrianavaldiglesias2@gmail.com and ill be ahppy to answer your questions. 
 
 ## License 
